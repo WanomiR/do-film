@@ -1,22 +1,15 @@
 import React from "react";
 
-import styles from './App.module';
+import styles from './app.module';
 import SamplePage from "../sample/sample";
 import '../../main.scss';
 
 const App: React.FC = () => {
     return (
-        <div>
-            <div className={styles.title}>CSS module works!</div>
-            <div className={styles.subtitle}>CSS module + Tailwind works!</div>
-            <div
-                className={
-                    'border-[10px] border-solid border-red-800 rounded-full w-[200px] h-[200px] flex items-center justify-center text-center'
-                }
-            >
-                Tailwind works!
-            </div>
-            <SamplePage/>
+        <div className={styles.app}>
+            <main className={styles.main}>
+                <SamplePage/>
+            </main>
         </div>
     );
 };

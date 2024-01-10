@@ -1,2 +1,2 @@
-# do-film
+# DoFilm
 WEB-based raw photo converter build with React + Redux + FastAPi

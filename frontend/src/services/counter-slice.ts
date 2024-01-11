@@ -1,68 +1,41 @@
-import {CaseReducer, createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RootState, AppThunk} from "./store";
-import {fetchCount} from "../components/counter/counter-api";
-import {act} from "react-dom/test-utils";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+// import {RootState, AppThunk} from "./store";
+import {fetchAllUsers} from "../api/users-api";
+import {IUserData, UsersState} from "../types/users";
 
 
-export interface CounterState {
-    value: number;
-    status: "idle" | "loading" | "failed";
-}
 
-const initialState: CounterState = {
-    value: 0,
+const initialState: UsersState = {
+    users: [],
     status: "idle"
 }
 
 
-export const incrementAsync = createAsyncThunk(
-    "counter/fetchCount",
-    async (amount: number): Promise<number> => {
-        const response = await fetchCount(amount);
-        return response.data
+export const fetchUsers: any = createAsyncThunk(
+    "users/fetchUsers",
+    async () => {
+        return await fetchAllUsers();
     }
 )
 
-export const counterSlice = createSlice({
-    name: "counter",
+export const usersSlice = createSlice({
+    name: "users",
     initialState,
-    reducers: {
-        increment: state => {
-            state.value++
-        },
-        decrement: state => {
-            state.value--
-        },
-        incrementByAmount: (state, action: PayloadAction<number>) => {
-            state.value += action.payload;
-        },
-    },
+    reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(incrementAsync.pending, state => {
+            .addCase(fetchUsers.pending, state => {
                 state.status = "loading";
             })
-            .addCase(incrementAsync.fulfilled, (state, action) => {
+            .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<Array<IUserData>>) => {
                 state.status = "idle";
-                state.value += action.payload;
+                state.users = action.payload;
             })
-            .addCase(incrementAsync.rejected, state => {
+            .addCase(fetchUsers.rejected, state => {
                 state.status = "failed";
             });
     },
 });
 
-export const {increment, decrement, incrementByAmount} = counterSlice.actions;
 
-export const selectCount = (state: RootState) => state.counter.value;
-
-export const incrementIfOdd =
-    (amount: number): AppThunk =>
-        (dispatch, getState) => {
-            const currentValue = selectCount(getState());
-            if (currentValue % 2 === 1) {
-                dispatch(incrementByAmount(amount));
-            }
-        };
-
-export default counterSlice.reducer;
+export default usersSlice.reducer;

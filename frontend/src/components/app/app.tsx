@@ -8,7 +8,7 @@ import {Users} from "../users/users";
 const App: React.FC = () => {
     return (
         <div className={styles.app}>
-            <main>
+            <main className={"container border"}>
                 <Users/>
             </main>
         </div>

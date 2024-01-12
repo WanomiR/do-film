@@ -13,6 +13,7 @@ export const Users: React.FC = () => {
 
 
     return (
-        <p>Not void.</p>
+        <div className={"container border"}>
+        </div>
     )
 }

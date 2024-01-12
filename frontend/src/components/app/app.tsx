@@ -8,7 +8,7 @@ import {Users} from "../users/users";
 const App: React.FC = () => {
     return (
         <div className={styles.app}>
-            <main className={styles.main}>
+            <main>
                 <Users/>
             </main>
         </div>

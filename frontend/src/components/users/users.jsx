@@ -1,42 +1,35 @@
 import React, {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../../services/hooks";
-import {fetchUsers} from "../../services/counter-slice";
 
-
-// @ts-ignore
-const User = ({userData}) => {
-    const {first_name, last_name, email, nickname, id} = userData;
-
-    return (
-        <li className={"row gap-3"}>
-            <div className={"col-auto"}>{id}</div>
-            <div className={"col-auto"}>{first_name}</div>
-            <div className={"col-auto"}>{last_name}</div>
-            <div className={"col-auto"}>{email}</div>
-            <div className={"col-auto"}>{nickname ? nickname : "No nickname"}</div>
-        </li>
-    )
-}
-
+import {fetchUsers} from "../../services/users-slice";
+import {User} from "./user/user";
+import {CreateUser} from "./create-user/create-user";
 
 
 export const Users = () => {
 
     const dispatch = useAppDispatch();
     const usersList = useAppSelector(state => state.users.users);
+    const postUserStatus = useAppSelector(state => state.users.postUserStatus);
 
     useEffect(() => {
         dispatch(fetchUsers());
-    }, [])
+    }, [postUserStatus])
 
 
     return (
-        <div>
-            <h3 className={"mb-3"}>Users List</h3>
-            <ul>
-                {usersList.map((userData, index) =>
-                    <User userData={userData} key={index}/>)}
-            </ul>
-        </div>
+        <section>
+            <div>
+                <h3 className={"m-4"}>Add new user</h3>
+                <CreateUser/>
+            </div>
+            <div>
+                <h3 className={"m-4"}>All users list</h3>
+                <ul>
+                    {usersList.map((userData, index) =>
+                        <User userData={userData} key={index}/>)}
+                </ul>
+            </div>
+        </section>
     )
 }

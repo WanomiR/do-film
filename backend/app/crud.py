@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 import models, schemas
 
 
-def create_user(db: Session, user: schemas.UserBase) -> schemas.UserBase:
+def create_user(db: Session, user: schemas.UserBase):
     db_entry = models.User(**user.model_dump())
     db.add(db_entry)
     db.commit()

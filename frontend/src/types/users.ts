@@ -1,8 +1,8 @@
 
 
 export interface IUserData {
-    first_name: string;
-    last_name?: string;
+    firstName: string;
+    lastName?: string;
     nickname?: string;
     email: string;
     password: string;
@@ -10,8 +10,9 @@ export interface IUserData {
 }
 
 export interface UsersState {
-    users: Array<IUserData | null>
-    status: "idle" | "loading" | "failed";
+    users: Array<IUserData | null>;
+    fetchUsersStatus: "idle" | "loading" | "failed";
+    postUserStatus: "idle" | "pending" | "failed";
 }
 
 

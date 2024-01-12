@@ -1,13 +1,14 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 // import {RootState, AppThunk} from "./store";
-import {fetchAllUsers} from "../api/users-api";
+import {fetchAllUsers, postNewUser} from "../api/users-api";
 import {IUserData, UsersState} from "../types/users";
 
 
 
 const initialState: UsersState = {
     users: [],
-    status: "idle"
+    fetchUsersStatus: "idle",
+    postUserStatus: "idle",
 }
 
 
@@ -18,6 +19,13 @@ export const fetchUsers: any = createAsyncThunk(
     }
 )
 
+export const postUser: any = createAsyncThunk(
+    "users/postNewUser",
+    async (data: IUserData) => {
+        return await postNewUser(data);
+    }
+)
+
 export const usersSlice = createSlice({
     name: "users",
     initialState,
@@ -25,15 +33,24 @@ export const usersSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(fetchUsers.pending, state => {
-                state.status = "loading";
+                state.fetchUsersStatus = "loading";
             })
             .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<Array<IUserData>>) => {
-                state.status = "idle";
+                state.fetchUsersStatus = "idle";
                 state.users = action.payload;
             })
             .addCase(fetchUsers.rejected, state => {
-                state.status = "failed";
-            });
+                state.fetchUsersStatus = "failed";
+            })
+            .addCase(postUser.pending, state => {
+                state.postUserStatus = "pending"
+            })
+            .addCase(postUser.fulfilled, state => {
+                state.postUserStatus = "idle"
+            })
+            .addCase(postUser.rejected, state => {
+                state.postUserStatus = "failed"
+            })
     },
 });
 

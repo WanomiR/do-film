@@ -1,10 +1,10 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, Depends, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Annotated, List
 from sqlalchemy.orm import Session
 
-import models, schemas, crud
-from database import SessionLocal, engine
+from . import models, schemas, crud
+from .database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -39,3 +39,5 @@ async def create_user(user: schemas.UserBase, db: db_dependency):
 @app.get("/users/", response_model=List[schemas.UserModel])
 async def read_users(db: db_dependency, skip: int = 0, limit: int = 100):
     return crud.get_all_users(db, skip=skip, limit=limit)
+
+

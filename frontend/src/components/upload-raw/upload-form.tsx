@@ -1,10 +1,8 @@
 import React, {useState} from "react";
 import api from "../../api/api";
 
+import styles from "./upload-form.module.scss"
 
-interface UploadFormProps {
-    className?: string;
-}
 
 export const UploadForm: React.FC = () => {
 
@@ -30,7 +28,7 @@ export const UploadForm: React.FC = () => {
     }
 
     return (
-        <>
+        <section className={styles.formContainer}>
             <form onSubmit={handleSubmit}>
                 <div>
                     <input
@@ -39,6 +37,6 @@ export const UploadForm: React.FC = () => {
                 </div>
                 <button type={"submit"}>Submit</button>
             </form>
-        </>
+        </section>
     )
 }

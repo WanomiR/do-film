@@ -1,9 +1,8 @@
-from pathlib import Path
-
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-UPLOAD_FOLDER = Path() / "backend" / "uploads"
+from .crud import save_raw
+
 
 app = FastAPI()
 
@@ -19,14 +18,7 @@ app.add_middleware(
 
 @app.post("/upload-raw/")
 async def upload_raw(raw_uploads: list[UploadFile]):
-
-    for file in raw_uploads:
-        data = await file.read()
-        save_to = UPLOAD_FOLDER / file.filename
-
-        with open(save_to, "wb") as f:
-            f.write(data)
-
+    await save_raw(raw_uploads)
     return {"fileNames": [file.filename for file in raw_uploads]}
 
 

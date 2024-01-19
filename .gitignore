@@ -1,7 +1,7 @@
 node_modules/
 build/
 DoLight/
-backend/uploads/*
+backend/uploads/
 
 .idea
 .vscode
